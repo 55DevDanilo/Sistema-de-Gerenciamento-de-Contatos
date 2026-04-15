@@ -5,12 +5,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 import db.DB;
 import db.DbException;
 import entities.Contatos;
-import module.entities.Department;
 
 public class ContatosDaoJDBC implements ContatosDao {
 
@@ -107,7 +107,7 @@ public class ContatosDaoJDBC implements ContatosDao {
 			st.setString(1, nome);
 			rs = st.executeQuery();
 			if (rs.next()) {
-				
+
 				return instantContatos(rs);
 			}
 			return null;
@@ -128,33 +128,56 @@ public class ContatosDaoJDBC implements ContatosDao {
 		cont.setNome(rs.getString("nome"));
 		cont.setEmail(rs.getString("email"));
 		cont.setTelefone(rs.getString("telefone"));
+		cont.setId(rs.getInt("id"));
 		return cont;
 	}
 
 	@Override
 	public Contatos findById(Integer id) {
-		// TODO Auto-generated method stub
-		{
-			// TODO Auto-generated method stub
-			PreparedStatement st =  null;
-			ResultSet rs = null;
-			try {
-				
-				st=conn.prepareStatement("SELECT * FROM contatos WHERE id = ?");
-				st.setInt(1, id);
-				
-				
-			} catch (Exception e) {
-				// TODO: handle exception
+
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		try {
+
+			st = conn.prepareStatement("SELECT * FROM contatos WHERE id = ?");
+			st.setInt(1, id);
+			rs = st.executeQuery();
+			if (rs.next()) {
+				return instantContatos(rs);
+
 			}
-			
 			return null;
+
+		} catch (SQLException e) {
+			throw new DbException(e.getMessage());
+
+		} finally {
+			DB.closeStatement(st);
+			DB.closeResultSet(rs);
 		}
+
+	}
 
 	@Override
 	public List<Contatos> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		try {
+			st = conn.prepareStatement("SELECT * FROM contatos " + "ORDER BY Nome");
+			rs = st.executeQuery();
+			List<Contatos> list = new ArrayList<>();
+			while (rs.next()) {
+				list.add(instantContatos(rs));
+			}
+			return list;
+		} catch (SQLException e) {
+			throw new DbException(e.getMessage());
+
+		} finally {
+			DB.closeStatement(st);
+			DB.closeResultSet(rs);
+
+		}
 	}
 
 	@Override
