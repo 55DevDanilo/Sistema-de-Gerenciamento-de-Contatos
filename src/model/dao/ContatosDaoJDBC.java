@@ -181,9 +181,28 @@ public class ContatosDaoJDBC implements ContatosDao {
 	}
 
 	@Override
-	public List<Contatos> findByContantos(Contatos Contatos) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Contatos> findByContantos(Contatos contatos) {
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		try {
+			st = conn.prepareStatement("SELECT nome FROM constatos " + " where Nome = ? " + " ORDER BY Nome");
+			st.setString(1, contatos.getNome());
+			rs = st.executeQuery();
+			List<Contatos> list = new ArrayList<>();
+			while (rs.next()) {
+				list.add(instantContatos(rs));
+			}
+
+			return list;
+		} catch (Exception e) {
+			throw new DbException(e.getMessage());
+		}
+
+		finally {
+			DB.closeStatement(st);
+			DB.closeResultSet(rs);
+		}
+
 	}
 
 }
