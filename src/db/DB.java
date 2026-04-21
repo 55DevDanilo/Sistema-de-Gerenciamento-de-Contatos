@@ -32,7 +32,7 @@ public class DB {
 	}
 	// fim do metod para conectar com DB
 
-	public static void closeConnectcion() {
+	public static void closeConnection() {
 		if (conn != null) {
 			try {
 
