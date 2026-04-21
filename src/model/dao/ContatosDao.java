@@ -18,6 +18,6 @@ public interface ContatosDao {
 
 	List<Contatos> findAll();
 
-	List<Contatos> findByContantos(Contatos Contatos);
+	/* List<Contatos> findByContantos(Contatos Contatos); */
 
 }

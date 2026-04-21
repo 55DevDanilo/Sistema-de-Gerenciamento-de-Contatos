@@ -180,12 +180,12 @@ public class ContatosDaoJDBC implements ContatosDao {
 		}
 	}
 
-	@Override
-	public List<Contatos> findByContantos(Contatos contatos) {
+/*	@Override
+	public List<Contatos> findByNome(Contatos contatos) {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
-			st = conn.prepareStatement("SELECT nome FROM constatos " + " where Nome = ? " + " ORDER BY Nome");
+			st = conn.prepareStatement("SELECT  FROM contatos " + " where Nome = ? " + " ORDER BY Nome");
 			st.setString(1, contatos.getNome());
 			rs = st.executeQuery();
 			List<Contatos> list = new ArrayList<>();
@@ -194,7 +194,7 @@ public class ContatosDaoJDBC implements ContatosDao {
 			}
 
 			return list;
-		} catch (Exception e) {
+		} catch (SQLException e) {
 			throw new DbException(e.getMessage());
 		}
 
@@ -203,6 +203,6 @@ public class ContatosDaoJDBC implements ContatosDao {
 			DB.closeResultSet(rs);
 		}
 
-	}
+	}*/
 
 }
